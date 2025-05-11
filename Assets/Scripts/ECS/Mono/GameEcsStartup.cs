@@ -2,6 +2,7 @@ using AB_Utility.FromSceneToEntityConverter;
 using ECS.Systems;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace ECS.Mono
@@ -18,6 +19,8 @@ namespace ECS.Mono
 
 		private void Start( )
 		{
+			var cinamachine = FindFirstObjectByType(typeof(CinemachineCamera)) as CinemachineCamera;
+			
 			var world = new EcsWorld( );
 
 			_input = new TankInput( );
@@ -33,15 +36,16 @@ namespace ECS.Mono
 				.Add( new Leopotam.EcsLite.UnityEditor.EcsSystemsDebugSystem( ) )
 				#endif
 				.ConvertScene( )
-				.Inject( _playerPrefab );
+				.Inject( _playerPrefab, cinamachine );
 
 			_updateSystems
 				.Add( new PlayerAudioSystem( ) )
+				.Add( new TurretSystem( ) )
 				#if UNITY_EDITOR
 				.Add( new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem( ) )
 				.Add( new Leopotam.EcsLite.UnityEditor.EcsSystemsDebugSystem( ) )
 				#endif
-				.Inject( );
+				.Inject( _input );
 
 			_fixedUpdateSystems
 				.Add( new PlayerMovementSystem( ) )
