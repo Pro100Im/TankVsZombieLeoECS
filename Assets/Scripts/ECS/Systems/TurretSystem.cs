@@ -7,104 +7,104 @@ using UnityEngine.InputSystem;
 
 namespace ECS.Systems
 {
-	public class TurretSystem : IEcsRunSystem, IEcsInitSystem, IEcsDestroySystem
-	{
-		private EcsCustomInject<TankInput> _tankInput;
+    public class TurretSystem : IEcsRunSystem, IEcsInitSystem, IEcsDestroySystem
+    {
+        private EcsCustomInject<TankInput> _tankInput;
 
-		private readonly EcsFilterInject<Inc<TurretComponent>> _turretComponents = default;
+        private readonly EcsFilterInject<Inc<TurretComponent>> _turretComponents = default;
 
-		private bool _isBigGun;
+        private bool _isBigGun;
 
-		private Camera  _camera;
-		private Vector3 _target;
+        private Camera _camera;
+        private Vector3 _target;
 
-		public void Init( IEcsSystems systems )
-		{
-			_isBigGun = false;
+        public void Init(IEcsSystems systems)
+        {
+            _isBigGun = false;
 
-			_camera = Camera.main;
-			
-			_tankInput.Value.ActionMap.Point.performed += AimInput;
-			_tankInput.Value.ActionMap.SwapGun.started += SwapTurretMode;
-		}
+            _camera = Camera.main;
 
-		public void Run( IEcsSystems systems )
-		{
-			foreach( var entity in _turretComponents.Value )
-			{
-				ref var turretComponent = ref _turretComponents.Pools.Inc1.Get( entity );
+            _tankInput.Value.ActionMap.Point.performed += AimInput;
+            _tankInput.Value.ActionMap.SwapGun.started += SwapTurretMode;
+        }
 
-				AimTurret( turretComponent );
-				CastLaser( turretComponent );
-				SwapTurret( ref turretComponent );
-			}
-		}
+        public void Run(IEcsSystems systems)
+        {
+            foreach(var entity in _turretComponents.Value)
+            {
+                ref var turretComponent = ref _turretComponents.Pools.Inc1.Get(entity);
 
-		private void AimInput( InputAction.CallbackContext context )
-		{
-			var target = context.ReadValue<Vector2>( );
+                AimTurret(turretComponent);
+                CastLaser(turretComponent);
+                SwapTurret(ref turretComponent);
+            }
+        }
 
-			_target = _camera.ScreenToWorldPoint( target );
-		}
+        private void AimInput(InputAction.CallbackContext context)
+        {
+            var target = context.ReadValue<Vector2>();
 
-		private void SwapTurretMode( InputAction.CallbackContext context )
-		{
-			_isBigGun = !_isBigGun;
-			
-			UIGameActions.OnTurretSwitched(_isBigGun);
-		}
+            _target = _camera.ScreenToWorldPoint(target);
+        }
 
-		private void AimTurret( TurretComponent turretComponent )
-		{
-			var transform     = turretComponent.Transform;
-			var rotationSpeed = turretComponent.RotationSpeed;
+        private void SwapTurretMode(InputAction.CallbackContext context)
+        {
+            _isBigGun = !_isBigGun;
 
-			var targetRotation = Quaternion.LookRotation( _target - transform.position, transform.TransformDirection( Vector3.back ) );
+            UIGameActions.OnTurretSwitched(_isBigGun);
+        }
 
-			transform.rotation = Quaternion.RotateTowards( transform.rotation, new Quaternion( 0, 0, targetRotation.z, targetRotation.w ), rotationSpeed * Time.deltaTime );
-		}
+        private void AimTurret(TurretComponent turretComponent)
+        {
+            var transform = turretComponent.Transform;
+            var rotationSpeed = turretComponent.RotationSpeed;
 
-		private void CastLaser( TurretComponent turretComponent )
-		{
-			var transform     = turretComponent.Transform;
-			var laserDistance = turretComponent.IsBigGun? turretComponent.BigGunLaserDistance: turretComponent.MiniGunLaserDistance;
-			var laserMask     = turretComponent.LaserMask;
-			var lineRenderer  = turretComponent.LineRenderer;
+            var targetRotation = Quaternion.LookRotation(_target - transform.position, transform.TransformDirection(Vector3.back));
 
-			var hit = Physics2D.Raycast( transform.position, transform.up, laserDistance, laserMask );
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, 0, targetRotation.z, targetRotation.w), rotationSpeed * Time.deltaTime);
+        }
 
-			if( hit )
-				DrawLaser( transform.position, hit.point, lineRenderer );
-			else
-				DrawLaser( transform.position, transform.position + transform.up * laserDistance, lineRenderer );
-		}
+        private void CastLaser(TurretComponent turretComponent)
+        {
+            var transform = turretComponent.Transform;
+            var laserDistance = turretComponent.IsBigGun ? turretComponent.BigGunLaserDistance : turretComponent.MiniGunLaserDistance;
+            var laserMask = turretComponent.LaserMask;
+            var lineRenderer = turretComponent.LineRenderer;
 
-		private void DrawLaser( Vector2 startPoint, Vector2 endPoint, LineRenderer lineRenderer )
-		{
-			lineRenderer.SetPosition( 0, startPoint );
-			lineRenderer.SetPosition( 1, endPoint );
-		}
+            var hit = Physics2D.Raycast(transform.position, transform.up, laserDistance, laserMask);
 
-		private void SwapTurret( ref TurretComponent turretComponent )
-		{
-			turretComponent.IsBigGun = _isBigGun;
+            if(hit)
+                DrawLaser(transform.position, hit.point, lineRenderer);
+            else
+                DrawLaser(transform.position, transform.position + transform.up * laserDistance, lineRenderer);
+        }
 
-			if( _isBigGun && !turretComponent.BigGun.activeSelf )
-			{
-				turretComponent.BigGun.SetActive( true );
-				turretComponent.MiniGun.SetActive( false );
-			}
-			else if( !_isBigGun && !turretComponent.MiniGun.activeSelf )
-			{
-				turretComponent.MiniGun.SetActive( true );
-				turretComponent.BigGun.SetActive( false );
-			}
-		}
+        private void DrawLaser(Vector2 startPoint, Vector2 endPoint, LineRenderer lineRenderer)
+        {
+            lineRenderer.SetPosition(0, startPoint);
+            lineRenderer.SetPosition(1, endPoint);
+        }
 
-		public void Destroy( IEcsSystems systems )
-		{
-			_tankInput.Value.ActionMap.Point.performed -= AimInput;
-			_tankInput.Value.ActionMap.SwapGun.started -= SwapTurretMode;
-		}
-	}
+        private void SwapTurret(ref TurretComponent turretComponent)
+        {
+            turretComponent.IsBigGun = _isBigGun;
+
+            if(_isBigGun && !turretComponent.BigGun.activeSelf)
+            {
+                turretComponent.BigGun.SetActive(true);
+                turretComponent.MiniGun.SetActive(false);
+            }
+            else if(!_isBigGun && !turretComponent.MiniGun.activeSelf)
+            {
+                turretComponent.MiniGun.SetActive(true);
+                turretComponent.BigGun.SetActive(false);
+            }
+        }
+
+        public void Destroy(IEcsSystems systems)
+        {
+            _tankInput.Value.ActionMap.Point.performed -= AimInput;
+            _tankInput.Value.ActionMap.SwapGun.started -= SwapTurretMode;
+        }
+    }
 }
