@@ -5,19 +5,16 @@ using UnityEngine.InputSystem;
 
 namespace ECS.Systems
 {
-    public class GunSystem : IEcsInitSystem, IEcsDestroySystem
+    public class GunSystem : IEcsRunSystem
     {
-        private readonly EcsCustomInject<TankInput> _tankInput;
+        private readonly EcsFilterInject<Inc<PlayerInputComponent>> _playerInputComponents = default;
         private readonly EcsFilterInject<Inc<BigGunComponent, MiniGunComponent, TurretComponent>> _gunComponents = default;
 
-        private int _entity;
-
-        public void Init(IEcsSystems systems)
+        public void Run(IEcsSystems systems)
         {
-            foreach(var entity in _gunComponents.Value)
-                _entity = entity;
-
-            _tankInput.Value.ActionMap.Fire.performed += FireInput;
+            var entity = _gunComponents.Value.GetRawEntities()[0];
+            var playerInputComponents = _playerInputComponents.Pools.Inc1.Get(entity);
+            //ref var turretComponent = ref _turretComponents.Pools.Inc1.Get(entity);
         }
 
         private void FireInput(InputAction.CallbackContext context)
@@ -32,11 +29,6 @@ namespace ECS.Systems
             //{
             //    var miniGun = _gunComponents.Pools.Inc2.Get(_entity);
             //}
-        }
-
-        public void Destroy(IEcsSystems systems)
-        {
-            _tankInput.Value.ActionMap.Fire.performed -= FireInput;
         }
     }
 }

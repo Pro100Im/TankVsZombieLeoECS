@@ -25,6 +25,7 @@ namespace ECS.Systems
             ref var playerInputComponent = ref _playerInputComponents.Pools.Inc1.Get(entity);
 
             playerInputComponent.SwapGunRequested = _tankInput.Value.ActionMap.SwapGun.WasPressedThisFrame();
+            playerInputComponent.FireRequested = _tankInput.Value.ActionMap.Fire.WasPressedThisFrame();
             playerInputComponent.AimingInput = _tankInput.Value.ActionMap.Point.ReadValue<Vector2>();
             playerInputComponent.DirectionInput = _tankInput.Value.ActionMap.Move.ReadValue<Vector2>().normalized;
         }

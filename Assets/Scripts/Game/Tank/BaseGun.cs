@@ -14,8 +14,8 @@ namespace Game.Tank
         {
             fireEffect.Play();
 
-            var bullet = bulletPool.Spawn(firePoint.position, firePoint.rotation);
-            bullet.AddForce();
+            //var bullet = bulletPool.Spawn(firePoint.position, firePoint.rotation);
+            //bullet.AddForce();
         }
     }
 }
