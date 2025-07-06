@@ -40,6 +40,7 @@ namespace ECS.Mono
                 .Inject(_playerPrefab, cinamachine);
 
             _updateSystems
+                .Add(new PlayerInputSystem())
                 .Add(new PlayerAudioSystem())
                 .Add(new TurretSystem())
                 .Add(new TurretModeIndicatorSystem())
@@ -52,8 +53,6 @@ namespace ECS.Mono
             _initSystems.Init();
             _updateSystems.Init();
             _fixedUpdateSystems.Init();
-
-            _input.Enable();
 
             SceneLoader.Instance.FadeScreen(0);
         }

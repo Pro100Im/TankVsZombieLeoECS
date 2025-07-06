@@ -21,11 +21,6 @@ namespace ECS.Systems
 
                 indicatorComponent.MiniGunToggle.isOn = !turretComponent.IsBigGun;
                 indicatorComponent.BigGunToggle.isOn = turretComponent.IsBigGun;
-
-                //if(isBigGun)
-                //    toggleBigGun.isOn = true;
-                //else
-                //    toggleMiniGun.isOn = true;
             }
         }
     }

@@ -21,5 +21,6 @@ namespace ECS.Components
 		public GameObject BigGun;
 
 		[NonSerialized] public Vector3 Target;
+		[NonSerialized] public Camera Camera;
 	}
 }

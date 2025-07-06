@@ -947,6 +947,7 @@ GameObject:
   - component: {fileID: 8451798281836889755}
   - component: {fileID: 1648892068027246434}
   - component: {fileID: 2572958132607552753}
+  - component: {fileID: 6719004905555548097}
   m_Layer: 3
   m_Name: Tank
   m_TagString: Player
@@ -1089,6 +1090,7 @@ MonoBehaviour:
   - {fileID: 8451798281836889755}
   - {fileID: 1648892068027246434}
   - {fileID: 2572958132607552753}
+  - {fileID: 6719004905555548097}
   _destroyAfterConversion: 0
 --- !u!114 &8451798281836889755
 MonoBehaviour:
@@ -1150,6 +1152,18 @@ MonoBehaviour:
     LineRenderer: {fileID: 1065234557507952382}
     MiniGun: {fileID: 1166822322865635199}
     BigGun: {fileID: 849308027573896322}
+--- !u!114 &6719004905555548097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3675303006466006479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a37dd912d2158c14fa096d0dfec92107, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3856007048071637855
 GameObject:
   m_ObjectHideFlags: 0

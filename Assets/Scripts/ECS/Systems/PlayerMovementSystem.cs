@@ -8,14 +8,15 @@ namespace ECS.Systems
     public class PlayerMovementSystem : IEcsRunSystem
     {
         private readonly EcsFilterInject<Inc<TankMovementComponent>> _tankMovementComponents = default;
-        private readonly EcsCustomInject<TankInput> _tankInput;
+        private readonly EcsFilterInject<Inc<PlayerInputComponent>> _playerInputComponents = default;
 
         public void Run(IEcsSystems systems)
         {
-            if(_tankMovementComponents.Value.GetEntitiesCount() == 0)
+            if(_tankMovementComponents.Value.GetEntitiesCount() == 0 || _playerInputComponents.Value.GetEntitiesCount() == 0)
                 return;
 
             var entity = _tankMovementComponents.Value.GetRawEntities()[0];
+            var playerInputComponents = _playerInputComponents.Pools.Inc1.Get(entity);
             ref var tankMovementComponent = ref _tankMovementComponents.Pools.Inc1.Get(entity);
 
             var rb = tankMovementComponent.rb;
@@ -23,9 +24,8 @@ namespace ECS.Systems
             var maxSpeed = tankMovementComponent.MaxSpeed;
             var rotationSpeed = tankMovementComponent.RotationSpeed;
 
-            var input = _tankInput.Value.ActionMap.Move.ReadValue<Vector2>().normalized;
-            var currentSpeed = input.y;
-            var currentRotation = input.x;
+            var currentSpeed = playerInputComponents.DirectionInput.y;
+            var currentRotation = playerInputComponents.DirectionInput.x;
 
             if(currentRotation != 0)
                 rb.rotation -= currentRotation * rotationSpeed * Time.fixedDeltaTime;
