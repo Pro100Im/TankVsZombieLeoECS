@@ -27,8 +27,8 @@ namespace Game
             cinamachine.Follow = tank.transform;
 
             var turretModeObservable = FindFirstObjectByType(typeof(TankTurret)) as ITurretModeObservable;
-            var turretModeObserver = FindFirstObjectByType(typeof(TurretModeIndicator)) as ITurretModeObserver;
-            turretModeObservable.AddTurretModeObserver(turretModeObserver);
+            //var turretModeObserver = FindFirstObjectByType(typeof(TurretModeIndicator)) as ITurretModeObserver;
+            //turretModeObservable.AddTurretModeObserver(turretModeObserver);
 
             var killCounter = FindFirstObjectByType(typeof(KillCounter)) as KillCounter;
 

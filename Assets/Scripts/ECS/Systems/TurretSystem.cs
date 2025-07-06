@@ -1,57 +1,41 @@
-using ECS.Actions;
 using ECS.Components;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace ECS.Systems
 {
-    public class TurretSystem : IEcsRunSystem, IEcsInitSystem, IEcsDestroySystem
+    public class TurretSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private EcsCustomInject<TankInput> _tankInput;
-
+        private readonly EcsCustomInject<TankInput> _tankInput;
         private readonly EcsFilterInject<Inc<TurretComponent>> _turretComponents = default;
-
-        private bool _isBigGun;
 
         private Camera _camera;
         private Vector3 _target;
 
         public void Init(IEcsSystems systems)
         {
-            _isBigGun = false;
-
             _camera = Camera.main;
-
-            _tankInput.Value.ActionMap.Point.performed += AimInput;
-            _tankInput.Value.ActionMap.SwapGun.started += SwapTurretMode;
         }
 
         public void Run(IEcsSystems systems)
         {
-            foreach(var entity in _turretComponents.Value)
-            {
-                ref var turretComponent = ref _turretComponents.Pools.Inc1.Get(entity);
+            if(_turretComponents.Value.GetEntitiesCount() == 0)
+                return;
 
-                AimTurret(turretComponent);
-                CastLaser(turretComponent);
+            var entity = _turretComponents.Value.GetRawEntities()[0];
+            ref var turretComponent = ref _turretComponents.Pools.Inc1.Get(entity);
+
+            var inputPoint = _tankInput.Value.ActionMap.Point.ReadValue<Vector2>();
+            var swapRequested = _tankInput.Value.ActionMap.SwapGun.WasPressedThisFrame();
+
+            _target = _camera.ScreenToWorldPoint(inputPoint);
+
+            AimTurret(turretComponent);
+            CastLaser(turretComponent);
+
+            if(swapRequested)
                 SwapTurret(ref turretComponent);
-            }
-        }
-
-        private void AimInput(InputAction.CallbackContext context)
-        {
-            var target = context.ReadValue<Vector2>();
-
-            _target = _camera.ScreenToWorldPoint(target);
-        }
-
-        private void SwapTurretMode(InputAction.CallbackContext context)
-        {
-            _isBigGun = !_isBigGun;
-
-            UIGameActions.OnTurretSwitched(_isBigGun);
         }
 
         private void AimTurret(TurretComponent turretComponent)
@@ -87,24 +71,20 @@ namespace ECS.Systems
 
         private void SwapTurret(ref TurretComponent turretComponent)
         {
-            turretComponent.IsBigGun = _isBigGun;
+            turretComponent.IsBigGun = !turretComponent.IsBigGun;
 
-            if(_isBigGun && !turretComponent.BigGun.activeSelf)
+            var isBigGun = turretComponent.IsBigGun;
+
+            if(isBigGun && !turretComponent.BigGun.activeSelf)
             {
                 turretComponent.BigGun.SetActive(true);
                 turretComponent.MiniGun.SetActive(false);
             }
-            else if(!_isBigGun && !turretComponent.MiniGun.activeSelf)
+            else if(!isBigGun && !turretComponent.MiniGun.activeSelf)
             {
                 turretComponent.MiniGun.SetActive(true);
                 turretComponent.BigGun.SetActive(false);
             }
-        }
-
-        public void Destroy(IEcsSystems systems)
-        {
-            _tankInput.Value.ActionMap.Point.performed -= AimInput;
-            _tankInput.Value.ActionMap.SwapGun.started -= SwapTurretMode;
         }
     }
 }

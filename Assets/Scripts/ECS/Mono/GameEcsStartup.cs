@@ -2,6 +2,7 @@ using AB_Utility.FromSceneToEntityConverter;
 using ECS.Systems;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Leopotam.EcsLite.UnityEditor;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -29,30 +30,23 @@ namespace ECS.Mono
             _updateSystems = new EcsSystems(world);
             _fixedUpdateSystems = new EcsSystems(world);
 
+            AddDebugSystems(_initSystems);
+            AddDebugSystems(_updateSystems);
+            AddDebugSystems(_fixedUpdateSystems);
+
             _initSystems
                 .Add(new PlayerSpawnSystem())
-#if UNITY_EDITOR
-                .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
-                .Add(new Leopotam.EcsLite.UnityEditor.EcsSystemsDebugSystem())
-#endif
                 .ConvertScene()
                 .Inject(_playerPrefab, cinamachine);
 
             _updateSystems
                 .Add(new PlayerAudioSystem())
                 .Add(new TurretSystem())
-#if UNITY_EDITOR
-                .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
-                .Add(new Leopotam.EcsLite.UnityEditor.EcsSystemsDebugSystem())
-#endif
+                .Add(new TurretModeIndicatorSystem())
                 .Inject(_input);
 
             _fixedUpdateSystems
                 .Add(new PlayerMovementSystem())
-#if UNITY_EDITOR
-                .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
-                .Add(new Leopotam.EcsLite.UnityEditor.EcsSystemsDebugSystem())
-#endif
                 .Inject(_input);
 
             _initSystems.Init();
@@ -62,6 +56,15 @@ namespace ECS.Mono
             _input.Enable();
 
             SceneLoader.Instance.FadeScreen(0);
+        }
+
+        private void AddDebugSystems(EcsSystems systems)
+        {
+#if UNITY_EDITOR
+            systems
+                .Add(new EcsWorldDebugSystem())
+                .Add(new EcsSystemsDebugSystem());
+#endif
         }
 
         private void Update()

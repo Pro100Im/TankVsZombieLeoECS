@@ -404,7 +404,8 @@ GameObject:
   - component: {fileID: 6567580376439814837}
   - component: {fileID: 7597814034477805166}
   - component: {fileID: 8935385181526708380}
-  - component: {fileID: 8319209256044966179}
+  - component: {fileID: 2478486163963830967}
+  - component: {fileID: 2863578384990400779}
   m_Layer: 5
   m_Name: TurretModeIndicator
   m_TagString: Untagged
@@ -478,7 +479,7 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &8319209256044966179
+--- !u!114 &2478486163963830967
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -487,11 +488,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 5813671197249269113}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf714fd977c1a804da2d628934d03b2f, type: 3}
+  m_Script: {fileID: 11500000, guid: 09d40b90da6b42589971320ba7a7bc95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toggleMiniGun: {fileID: 6308774961150387755}
-  toggleBigGun: {fileID: 120014402027533263}
+  _converters:
+  - {fileID: 2863578384990400779}
+  _destroyAfterConversion: 0
+--- !u!114 &2863578384990400779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5813671197249269113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97e012daa1caaf9479f5962c628a8156, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _component:
+    MiniGunToggle: {fileID: 6308774961150387755}
+    BigGunToggle: {fileID: 120014402027533263}
 --- !u!1 &7099327282189778605
 GameObject:
   m_ObjectHideFlags: 0
