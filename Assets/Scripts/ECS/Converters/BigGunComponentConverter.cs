@@ -3,5 +3,5 @@ using ECS.Components;
 
 namespace ECS.Converters
 {
-    public class ExplosiveComponentConverter : ComponentConverter<ExplosiveComponent> { }
+    public class BigGunComponentConverter : ComponentConverter<BigGunComponent> { }
 }

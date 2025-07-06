@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 namespace ECS.Components
 {
+	[Serializable]
 	public struct BigGunComponent
 	{
 		public float ReloadDuration;
@@ -10,11 +12,8 @@ namespace ECS.Components
 
 		public SpriteRenderer Gun;
 		public Color          HotColor;
-		public Rigidbody2D    Rb;
 		
-		public Transform firePoint;
-        //public BulletPool bulletPool;
-        public ParticleSystem fireEffect;
-        //public TankAudio tankAudio;
+		public Transform FirePoint;
+        public ParticleSystem FireEffect;
 	}
 }

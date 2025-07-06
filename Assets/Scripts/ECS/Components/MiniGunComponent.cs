@@ -1,12 +1,12 @@
+using System;
 using UnityEngine;
 
 namespace ECS.Components
 {
-	public struct MiniGunComponent
+    [Serializable]
+    public struct MiniGunComponent
 	{
-		public Transform firePoint;
-        //public BulletPool bulletPool;
-        public ParticleSystem fireEffect;
-        //public TankAudio tankAudio;
+		public Transform FirePoint;
+        public ParticleSystem FireEffect;
 	}
 }

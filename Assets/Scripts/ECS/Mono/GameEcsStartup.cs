@@ -44,6 +44,7 @@ namespace ECS.Mono
                 .Add(new PlayerAudioSystem())
                 .Add(new TurretSystem())
                 .Add(new TurretModeIndicatorSystem())
+                .Add(new GunSystem())
                 .Inject(_input);
 
             _fixedUpdateSystems

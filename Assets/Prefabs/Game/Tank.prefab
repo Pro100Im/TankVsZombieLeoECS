@@ -928,8 +928,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd6c60cf76ab7724a813104af2380c29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 3372367430776053286, guid: 778cf4c866c5bc542a028de2841f0467, type: 3}
-  poolSize: 10
+  initialSize: 10
+  prefab: {fileID: 0}
+  container: {fileID: 0}
 --- !u!1 &3675303006466006479
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,6 +949,8 @@ GameObject:
   - component: {fileID: 1648892068027246434}
   - component: {fileID: 2572958132607552753}
   - component: {fileID: 6719004905555548097}
+  - component: {fileID: 4767415468807502178}
+  - component: {fileID: 8394415155122712598}
   m_Layer: 3
   m_Name: Tank
   m_TagString: Player
@@ -1091,6 +1094,8 @@ MonoBehaviour:
   - {fileID: 1648892068027246434}
   - {fileID: 2572958132607552753}
   - {fileID: 6719004905555548097}
+  - {fileID: 4767415468807502178}
+  - {fileID: 8394415155122712598}
   _destroyAfterConversion: 0
 --- !u!114 &8451798281836889755
 MonoBehaviour:
@@ -1164,6 +1169,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a37dd912d2158c14fa096d0dfec92107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4767415468807502178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3675303006466006479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2003620d6df9eb548929b6dc93a6ba02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _component:
+    FirePoint: {fileID: 7414202804684599737}
+    FireEffect: {fileID: 5023469620831046408}
+--- !u!114 &8394415155122712598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3675303006466006479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad6c73a73b96d849b2a053b571724aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _component:
+    ReloadDuration: 5
+    HeatingDuration: 0.25
+    RecoilPower: 500
+    Gun: {fileID: 8897863258853727876}
+    HotColor: {r: 0.9607843, g: 0.2627451, b: 0.050980393, a: 1}
+    Rb: {fileID: 7491354986613616703}
+    FirePoint: {fileID: 365446862752961438}
+    FireEffect: {fileID: 6945740130072070714}
 --- !u!1 &3856007048071637855
 GameObject:
   m_ObjectHideFlags: 0
@@ -11289,8 +11330,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd6c60cf76ab7724a813104af2380c29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 3948109411876560207, guid: 1aa3772296bd90b4190b6329cc80cb63, type: 3}
-  poolSize: 35
+  initialSize: 10
+  prefab: {fileID: 0}
+  container: {fileID: 0}
 --- !u!1 &8829213915117700863
 GameObject:
   m_ObjectHideFlags: 0

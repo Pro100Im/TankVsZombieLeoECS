@@ -1,6 +1,7 @@
 using AB_Utility.FromSceneToEntityConverter;
+using ECS.Components;
 
-namespace ECS.Components
+namespace ECS.Converters
 {
     public class LifetimeComponentConverter : ComponentConverter<LifetimeComponent> { }
 }
