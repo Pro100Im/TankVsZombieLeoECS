@@ -11,8 +11,8 @@ namespace ECS.Systems
         private readonly EcsWorldInject _defaultWorld = default;
         private readonly EcsFilterInject<Inc<PlayerInputComponent>> _playerInputComponents = default;
         private readonly EcsFilterInject<Inc<TurretComponent, BigGunComponent, MiniGunComponent>> _gunComponents = default;
-        private readonly EcsFilterInject<Inc<InPoolTag, BulletRefsComponent>,Exc<ExplosiveComponent>> _miniBulletRefsInPoolComponents = default;
-        private readonly EcsFilterInject<Inc<InPoolTag, BulletRefsComponent, ExplosiveComponent>> _bigBulletRefsInPoolComponents = default;
+        private readonly EcsFilterInject<Inc<InPoolTag, BulletRefsComponent, SpeedComponent>,Exc<ExplosiveComponent>> _miniBulletRefsInPoolComponents = default;
+        private readonly EcsFilterInject<Inc<InPoolTag, BulletRefsComponent, SpeedComponent, ExplosiveComponent>> _bigBulletRefsInPoolComponents = default;
 
         public void Init(IEcsSystems systems)
         {
@@ -52,7 +52,8 @@ namespace ECS.Systems
                 if(bulletFilter.GetEntitiesCount() > 0)
                 {
                     var bulletEntity = bulletFilter.GetRawEntities()[0];
-                    var bulletRefComponen = _bigBulletRefsInPoolComponents.Pools.Inc2.Get(bulletEntity);
+                    var bulletRefComponent = _bigBulletRefsInPoolComponents.Pools.Inc2.Get(bulletEntity);
+                    var speedComponent = _bigBulletRefsInPoolComponents.Pools.Inc3.Get(bulletEntity);
 
                     var pool = _defaultWorld.Value.GetPool<InPoolTag>();
                     if(pool.Has(bulletEntity))
@@ -60,7 +61,10 @@ namespace ECS.Systems
                         pool.Del(bulletEntity);
                     }
 
-                    bulletRefComponen.GameObject.SetActive(true);
+                    bulletRefComponent.GameObject.transform.position = bigGunComponent.FirePoint.position;
+                    bulletRefComponent.GameObject.transform.rotation = bigGunComponent.FirePoint.rotation;
+                    bulletRefComponent.GameObject.SetActive(true);
+                    bulletRefComponent.Rb.AddForce(bulletRefComponent.GameObject.transform.up * speedComponent.Speed, ForceMode2D.Impulse);
                 }
 
                 if(bulletFilter.GetEntitiesCount() == 0)
@@ -80,7 +84,8 @@ namespace ECS.Systems
                 if(bulletFilter.GetEntitiesCount() > 0)
                 {
                     var bulletEntity = bulletFilter.GetRawEntities()[0];
-                    var bulletRefComponen = _miniBulletRefsInPoolComponents.Pools.Inc2.Get(bulletEntity);
+                    var bulletRefComponent = _miniBulletRefsInPoolComponents.Pools.Inc2.Get(bulletEntity);
+                    var speedComponent = _miniBulletRefsInPoolComponents.Pools.Inc3.Get(bulletEntity);
 
                     var pool = _defaultWorld.Value.GetPool<InPoolTag>();
                     if(pool.Has(bulletEntity))
@@ -88,7 +93,10 @@ namespace ECS.Systems
                         pool.Del(bulletEntity);
                     }
 
-                    bulletRefComponen.GameObject.SetActive(true);
+                    bulletRefComponent.GameObject.transform.position = miniGunComponent.FirePoint.position;
+                    bulletRefComponent.GameObject.transform.rotation = miniGunComponent.FirePoint.rotation;
+                    bulletRefComponent.GameObject.SetActive(true);
+                    bulletRefComponent.Rb.AddForce(bulletRefComponent.GameObject.transform.up * speedComponent.Speed, ForceMode2D.Impulse);
                 }
    
                 if(bulletFilter.GetEntitiesCount() == 0)
