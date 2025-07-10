@@ -8,5 +8,7 @@ namespace ECS.Components
 	{
 		public Transform FirePoint;
         public ParticleSystem FireEffect;
+        public GameObject BulletPrefab;
+        public int BulletPoolSize;
 	}
 }

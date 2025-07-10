@@ -6,7 +6,10 @@ namespace ECS.Components
 	[Serializable]
 	public struct BigGunComponent
 	{
-		public float ReloadDuration;
+        public GameObject BulletPrefab;
+        public int BulletPoolSize;
+
+        public float ReloadDuration;
 		public float HeatingDuration;
 		public float RecoilPower;
 

@@ -1184,6 +1184,8 @@ MonoBehaviour:
   _component:
     FirePoint: {fileID: 7414202804684599737}
     FireEffect: {fileID: 5023469620831046408}
+    BulletPrefab: {fileID: 3270146068538548748, guid: 1aa3772296bd90b4190b6329cc80cb63, type: 3}
+    BulletPoolSize: 10
 --- !u!114 &8394415155122712598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1197,12 +1199,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _component:
+    BulletPrefab: {fileID: 8782129583722817302, guid: 778cf4c866c5bc542a028de2841f0467, type: 3}
+    BulletPoolSize: 2
     ReloadDuration: 5
     HeatingDuration: 0.25
     RecoilPower: 500
     Gun: {fileID: 8897863258853727876}
     HotColor: {r: 0.9607843, g: 0.2627451, b: 0.050980393, a: 1}
-    Rb: {fileID: 7491354986613616703}
     FirePoint: {fileID: 365446862752961438}
     FireEffect: {fileID: 6945740130072070714}
 --- !u!1 &3856007048071637855
@@ -11393,6 +11396,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8834220197351715173}
     m_Modifications:
+    - target: {fileID: 2582139904200114729, guid: 7b38eb3ff49002d44b94655cb983b5d3, type: 3}
+      propertyPath: InitialModule.size3D
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2582139904200114729, guid: 7b38eb3ff49002d44b94655cb983b5d3, type: 3}
+      propertyPath: ShapeModule.m_Position.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2582139904200114729, guid: 7b38eb3ff49002d44b94655cb983b5d3, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2582139904200114729, guid: 7b38eb3ff49002d44b94655cb983b5d3, type: 3}
+      propertyPath: InitialModule.startSizeY.scalar
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2582139904200114729, guid: 7b38eb3ff49002d44b94655cb983b5d3, type: 3}
+      propertyPath: InitialModule.startSizeZ.scalar
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5503163422355854337, guid: 7b38eb3ff49002d44b94655cb983b5d3, type: 3}
       propertyPath: m_Name
       value: BigGunFireEffect
@@ -11403,7 +11426,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5543911495568243416, guid: 7b38eb3ff49002d44b94655cb983b5d3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.51
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 5543911495568243416, guid: 7b38eb3ff49002d44b94655cb983b5d3, type: 3}
       propertyPath: m_LocalPosition.z

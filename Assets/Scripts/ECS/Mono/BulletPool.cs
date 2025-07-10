@@ -21,25 +21,25 @@ namespace Game.Bullet
 
             for(int i = 0; i < initialSize; i++)
             {
-                var go = EcsConverter.InstantiateAndCreateEntity(prefab, world);
-                go.transform.SetParent(container);
-                go.SetActive(false);
-                pool.Enqueue(go);
+                var entityRef = EcsConverter.InstantiateAndCreateEntity(prefab, world);
+                entityRef.transform.SetParent(container);
+                entityRef.gameObject.SetActive(false);
+                pool.Enqueue(entityRef);
             }
         }
 
-        public GameObject Get()
+        public GameObject Spawn()
         {
-            GameObject go = pool.Count > 0 ? pool.Dequeue() : EcsConverter.InstantiateAndCreateEntity(prefab, world);
-            go.transform.SetParent(container);
-            go.SetActive(true);
-            return go;
+            var entityRef = pool.Dequeue();
+            entityRef.gameObject.SetActive(true);
+
+            return entityRef;
         }
 
-        public void Return(GameObject go)
+        public void Return(GameObject entityRef)
         {
-            go.SetActive(false);
-            pool.Enqueue(go);
+            entityRef.gameObject.SetActive(false);
+            pool.Enqueue(entityRef);
         }
     }
 }

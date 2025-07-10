@@ -4,8 +4,9 @@ using UnityEngine;
 namespace ECS.Components
 {
     [Serializable]
-    public struct BulletViewComponent
+    public struct BulletRefsComponent
     {
         public GameObject GameObject;
+        public Rigidbody2D Rb;
     }
 }

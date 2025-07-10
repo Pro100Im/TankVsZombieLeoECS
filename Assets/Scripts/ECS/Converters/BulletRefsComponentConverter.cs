@@ -3,5 +3,5 @@ using ECS.Components;
 
 namespace ECS.Converters
 {
-    public class BulletViewComponentConverter : ComponentConverter<BulletViewComponent> { }
+    public class BulletRefsComponentConverter : ComponentConverter<BulletRefsComponent> { }
 }
