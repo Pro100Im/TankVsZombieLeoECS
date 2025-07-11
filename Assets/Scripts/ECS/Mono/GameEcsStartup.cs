@@ -45,6 +45,8 @@ namespace ECS.Mono
                 .Add(new TurretSystem())
                 .Add(new TurretModeIndicatorSystem())
                 .Add(new GunSystem())
+                .Add(new LifetimeSystem())
+                .Add(new ReturnToPoolSystem())
                 .Inject(_input);
 
             _fixedUpdateSystems

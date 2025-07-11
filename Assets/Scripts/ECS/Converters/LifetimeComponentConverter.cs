@@ -3,5 +3,5 @@ using ECS.Components;
 
 namespace ECS.Converters
 {
-    public class LifetimeComponentConverter : ComponentConverter<LifetimeComponent> { }
+    public class LifetimeComponentConverter : ComponentConverter<LifeTimeComponent> { }
 }

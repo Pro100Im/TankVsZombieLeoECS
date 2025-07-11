@@ -292,6 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _component:
     Time: 1.5
+    CurrentTime: 1.5
 --- !u!114 &3682816967570672478
 MonoBehaviour:
   m_ObjectHideFlags: 0
