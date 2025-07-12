@@ -2,7 +2,6 @@
   "dependencies": {
     "com.anbi.leoecslite.entityconverter": "https://github.com/AndreyBirchenko/LeoEcsLiteEntityConverter.git",
     "com.leopotam.ecslite": "https://github.com/Leopotam/ecslite.git",
-    "com.leopotam.ecslite.di": "https://github.com/Leopotam/ecslite-di.git",
     "com.leopotam.ecslite.unityeditor": "https://github.com/Leopotam/ecslite-unityeditor.git",
     "com.unity.cinemachine": "3.1.3",
     "com.unity.collab-proxy": "2.8.2",
