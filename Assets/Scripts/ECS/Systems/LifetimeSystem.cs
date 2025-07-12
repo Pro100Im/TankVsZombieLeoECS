@@ -1,59 +1,37 @@
-using ECS.Components;
+п»їusing ECS.Components;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace ECS.Systems
 {
-    public class LifetimeSystem : IEcsRunSystem
+    public class LifetimeSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private readonly EcsWorldInject _defaultWorld = default;
-        private readonly EcsFilterInject<Inc<LifeTimeComponent>, Exc<InPoolTag, ReturnToPoolTag>> _lifeTimeComponents = default;
-        private readonly EcsFilterInject<Inc<LifeTimeComponent, ReturnToPoolTag>, Exc<InPoolTag>> _noLifeTimeComponents = default;
+        private EcsWorld _world;
+
+        private EcsFilter _filter;
+
+        private EcsPool<LifeTimeComponent> _ltPool;
+        private EcsPool<ReturnToPoolTag> _retPool;
+
+        public void Init(IEcsSystems systems)
+        {
+            _world = systems.GetWorld();
+
+            _ltPool = _world.GetPool<LifeTimeComponent>();
+            _retPool = _world.GetPool<ReturnToPoolTag>();
+
+            _filter = _world.Filter<LifeTimeComponent>().Exc<InPoolTag>().Exc<ReturnToPoolTag>().End();
+        }
 
         public void Run(IEcsSystems systems)
         {
-            var lifeTimeFilter = _lifeTimeComponents.Value;
-            var lifeTimePool = _lifeTimeComponents.Pools.Inc1;
-
-            foreach(var i in lifeTimeFilter)
+            foreach(var entity in _filter)
             {
-                var entity = lifeTimeFilter.GetRawEntities()[i];
+                ref var lt = ref _ltPool.Get(entity);
+                lt.CurrentTime -= Time.deltaTime;
 
-                if(!lifeTimePool.Has(entity))
-                    continue;
-
-                ref var lifetimeComponent = ref lifeTimePool.Get(entity);
-
-                lifetimeComponent.CurrentTime -= Time.deltaTime;
-
-                if(lifetimeComponent.CurrentTime <= 0)
-                {
-                    var pool = _defaultWorld.Value.GetPool<ReturnToPoolTag>();
-
-                    if(!pool.Has(entity))
-                    {
-                        pool.Add(entity);
-                        Debug.Log($"ReturnToPoolTag добавлен на пулю: {entity}");
-                    }
-                }
-
-                Debug.LogWarning($"lifetimeComponent.CurrentTime {lifetimeComponent.CurrentTime}");
-            }
-
-            var noLifeTimeFilter = _noLifeTimeComponents.Value;
-            var noLifeTimePool = _noLifeTimeComponents.Pools.Inc1;
-
-            foreach(var i in noLifeTimeFilter)
-            {
-                var entity = noLifeTimeFilter.GetRawEntities()[i];
-
-                if(!noLifeTimePool.Has(entity))
-                    continue;
-
-                ref var lifetimeComponent = ref noLifeTimePool.Get(entity);
-
-                lifetimeComponent.CurrentTime = lifetimeComponent.Time;
+                if(lt.CurrentTime <= 0f)
+                    _retPool.Add(entity);
             }
         }
     }

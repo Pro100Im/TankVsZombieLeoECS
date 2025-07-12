@@ -1,37 +1,48 @@
-using ECS.Components;
+﻿using ECS.Components;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
-using UnityEngine;
 
 namespace ECS.Systems
 {
-    public class ReturnToPoolSystem : IEcsRunSystem
+    public class ReturnToPoolSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private readonly EcsWorldInject _defaultWorld = default;
-        private readonly EcsFilterInject<Inc<BulletRefsComponent, ReturnToPoolTag>, Exc<InPoolTag>> _bulletReturnToPoolComponents = default;
+        private EcsWorld _world;
+
+        private EcsFilter _bulletFilter;
+
+        private EcsPool<InPoolTag> _inPool;
+        private EcsPool<ReturnToPoolTag> _retPool;
+        private EcsPool<LifeTimeComponent> _ltPool;
+        private EcsPool<BulletRefsComponent> _refPool;
+
+        public void Init(IEcsSystems systems)
+        {
+            _world = systems.GetWorld();
+
+            _inPool = _world.GetPool<InPoolTag>();
+            _retPool = _world.GetPool<ReturnToPoolTag>();
+            _ltPool = _world.GetPool<LifeTimeComponent>();
+            _refPool = _world.GetPool<BulletRefsComponent>();
+
+            _bulletFilter = _world.Filter<ReturnToPoolTag>().Inc<BulletRefsComponent>().End();
+        }
 
         public void Run(IEcsSystems systems)
         {
-            var returnToPoolFilter = _bulletReturnToPoolComponents.Value;
-            var bulletRefPool = _bulletReturnToPoolComponents.Pools.Inc1;
-            var returnToPool = _bulletReturnToPoolComponents.Pools.Inc2;
+            ReturnToBulletPool();
+        }
 
-            foreach(var i in returnToPoolFilter)
+        private void ReturnToBulletPool()
+        {
+            foreach(var entity in _bulletFilter)
             {
-                var returnToPoolEntity = returnToPoolFilter.GetRawEntities()[i];
+                ref var bulletRef = ref _refPool.Get(entity);
+                bulletRef.GameObject.SetActive(false);
 
-                if(!returnToPool.Has(returnToPoolEntity))
-                    continue;
+                ref var lt = ref _ltPool.Get(entity);
+                lt.CurrentTime = lt.Time;
 
-                ref var bulletRefComponent = ref bulletRefPool.Get(returnToPoolEntity);
-                var returnToPoolComponent = returnToPool.Get(returnToPoolEntity);
-                var pool = _defaultWorld.Value.GetPool<ReturnToPoolTag>();
-
-                bulletRefComponent.GameObject.SetActive(false);
-                bulletRefComponent.Rb.linearVelocity = Vector2.zero;
-
-                if(pool.Has(returnToPoolEntity))
-                    pool.Del(returnToPoolEntity);
+                _inPool.Add(entity);
+                _retPool.Del(entity);
             }
         }
     }
