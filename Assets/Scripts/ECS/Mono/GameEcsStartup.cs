@@ -35,12 +35,11 @@ namespace ECS.Mono
             AddDebugSystems(_fixedUpdateSystems);
 
             _initSystems
-                .Add(new PlayerSpawnSystem())
-                .ConvertScene()
-                .Inject(_playerPrefab, cinamachine);
+                .Add(new PlayerSpawnSystem(_playerPrefab, cinamachine))
+                .ConvertScene();
 
             _updateSystems
-                .Add(new PlayerInputSystem())
+                .Add(new PlayerInputSystem(_input))
                 .Add(new PlayerAudioSystem())
                 .Add(new TurretSystem())
                 .Add(new TurretModeIndicatorSystem())
