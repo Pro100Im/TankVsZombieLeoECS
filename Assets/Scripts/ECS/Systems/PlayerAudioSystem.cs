@@ -1,31 +1,49 @@
 using ECS.Components;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace ECS.Systems
 {
-    public class PlayerAudioSystem : IEcsRunSystem
+    public class PlayerAudioSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<TankMovementComponent>> _tankMovementComponents = default;
-        private readonly EcsFilterInject<Inc<TankAudioComponent>> _tankAudioComponents = default;
+        private EcsWorld _world;
+
+        private EcsPool<TankMovementComponent> _movementPool;
+        private EcsPool<TankAudioComponent> _audioPool;
+
+        private EcsFilter _filter;
+
+        public void Init(IEcsSystems systems)
+        {
+            _world = systems.GetWorld();
+
+            _movementPool = _world.GetPool<TankMovementComponent>();
+            _audioPool = _world.GetPool<TankAudioComponent>();
+
+            _filter = _world.Filter<TankMovementComponent>().Inc<TankAudioComponent>().End();
+        }
 
         public void Run(IEcsSystems systems)
         {
-            foreach(var entity in _tankMovementComponents.Value)
+            foreach(var entity in _filter)
             {
-                var tankMovementComponent = _tankMovementComponents.Pools.Inc1.Get(entity);
-                var tankAudioComponent = _tankAudioComponents.Pools.Inc1.Get(entity);
+                if(!_audioPool.Has(entity)) continue;
 
-                var rb = tankMovementComponent.rb;
-                var maxValue = tankMovementComponent.MaxSpeed;
-                var audioSourceEngine = tankAudioComponent.AudioSourceEngine;
-                var minSpeed = tankAudioComponent.MinSpeed;
-                var maxSpeed = tankAudioComponent.MaxSpeed;
-                var value = (Mathf.Abs(rb.linearVelocityY) + Mathf.Abs(rb.linearVelocityX)) / maxValue;
+                var move = _movementPool.Get(entity);
+                var audio = _audioPool.Get(entity);
 
-                var pitch = Mathf.Lerp(minSpeed, maxSpeed, value);
-                audioSourceEngine.pitch = pitch;
+                var rb = move.rb;
+                var maxSpeed = move.MaxSpeed;
+
+                var audioSource = audio.AudioSourceEngine;
+                var minPitch = audio.MinSpeed;
+                var maxPitch = audio.MaxSpeed;
+
+                var velocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY);
+                var value = velocity.magnitude / maxSpeed;
+
+                var pitch = Mathf.Lerp(minPitch, maxPitch, value);
+                audioSource.pitch = pitch;
             }
         }
     }

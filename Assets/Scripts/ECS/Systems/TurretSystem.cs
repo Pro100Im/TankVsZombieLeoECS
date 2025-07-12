@@ -1,42 +1,54 @@
 using ECS.Components;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace ECS.Systems
 {
     public class TurretSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<TurretComponent>> _turretComponents = default;
-        private readonly EcsFilterInject<Inc<PlayerInputComponent>> _playerInputComponents = default;
+        private EcsWorld _world;
+
+        private EcsPool<TurretComponent> _turretPool;
+        private EcsPool<PlayerInputComponent> _inputPool;
+
+        private EcsFilter _turretFilter;
 
         public void Init(IEcsSystems systems)
         {
-            var entity = _turretComponents.Value.GetRawEntities()[0];
-            ref var turretComponent = ref _turretComponents.Pools.Inc1.Get(entity);
+            _world = systems.GetWorld();
 
-            turretComponent.Camera = Camera.main;
+            _turretPool = _world.GetPool<TurretComponent>();
+            _inputPool = _world.GetPool<PlayerInputComponent>();
+
+            _turretFilter = _world.Filter<TurretComponent>().Inc<PlayerInputComponent>().End();
+
+            foreach(var entity in _turretFilter)
+            {
+                ref var turret = ref _turretPool.Get(entity);
+                turret.Camera = Camera.main;
+            }
         }
 
         public void Run(IEcsSystems systems)
         {
-            if(_turretComponents.Value.GetEntitiesCount() == 0 || _playerInputComponents.Value.GetEntitiesCount() == 0)
+            if(_turretFilter.GetEntitiesCount() == 0)
                 return;
 
-            var entity = _turretComponents.Value.GetRawEntities()[0];
-            var playerInputComponents = _playerInputComponents.Pools.Inc1.Get(entity);
-            ref var turretComponent = ref _turretComponents.Pools.Inc1.Get(entity);
+            var entity = _turretFilter.GetRawEntities()[0];
 
-            var inputPoint = playerInputComponents.AimingInput;
-            var swapRequested = playerInputComponents.SwapGunRequested;
+            ref var input = ref _inputPool.Get(entity);
+            ref var turret = ref _turretPool.Get(entity);
 
-            turretComponent.Target = turretComponent.Camera.ScreenToWorldPoint(inputPoint);
+            var inputPoint = input.AimingInput;
+            var swapRequested = input.SwapGunRequested;
 
-            AimTurret(turretComponent);
-            CastLaser(turretComponent);
+            turret.Target = turret.Camera.ScreenToWorldPoint(inputPoint);
+
+            AimTurret(turret);
+            CastLaser(turret);
 
             if(swapRequested)
-                SwapTurret(ref turretComponent);
+                SwapTurret(ref turret);
         }
 
         private void AimTurret(TurretComponent turretComponent)
@@ -46,7 +58,11 @@ namespace ECS.Systems
             var rotationSpeed = turretComponent.RotationSpeed;
 
             var targetRotation = Quaternion.LookRotation(target - transform.position, transform.TransformDirection(Vector3.back));
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, new Quaternion(0, 0, targetRotation.z, targetRotation.w), rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation,
+                new Quaternion(0, 0, targetRotation.z, targetRotation.w),
+                rotationSpeed * Time.deltaTime
+            );
         }
 
         private void CastLaser(TurretComponent turretComponent)
@@ -58,7 +74,7 @@ namespace ECS.Systems
 
             var hit = Physics2D.Raycast(transform.position, transform.up, laserDistance, laserMask);
 
-            if(hit)
+            if(hit.collider != null)
                 DrawLaser(transform.position, hit.point, lineRenderer);
             else
                 DrawLaser(transform.position, transform.position + transform.up * laserDistance, lineRenderer);
@@ -74,7 +90,7 @@ namespace ECS.Systems
         {
             turretComponent.IsBigGun = !turretComponent.IsBigGun;
 
-            var isBigGun = turretComponent.IsBigGun;
+            bool isBigGun = turretComponent.IsBigGun;
 
             if(isBigGun && !turretComponent.BigGun.activeSelf)
             {

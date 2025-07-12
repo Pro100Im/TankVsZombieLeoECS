@@ -1,33 +1,47 @@
 using ECS.Components;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace ECS.Systems
 {
-    public class PlayerMovementSystem : IEcsRunSystem
+    public class PlayerMovementSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<TankMovementComponent>> _tankMovementComponents = default;
-        private readonly EcsFilterInject<Inc<PlayerInputComponent>> _playerInputComponents = default;
+        private EcsWorld _world;
+
+        private EcsPool<TankMovementComponent> _movementPool;
+        private EcsPool<PlayerInputComponent> _inputPool;
+
+        private EcsFilter _movementFilter;
+
+        public void Init(IEcsSystems systems)
+        {
+            _world = systems.GetWorld();
+
+            _movementPool = _world.GetPool<TankMovementComponent>();
+            _inputPool = _world.GetPool<PlayerInputComponent>();
+
+            _movementFilter = _world.Filter<TankMovementComponent>().Inc<PlayerInputComponent>().End();
+        }
 
         public void Run(IEcsSystems systems)
         {
-            if(_tankMovementComponents.Value.GetEntitiesCount() == 0 || _playerInputComponents.Value.GetEntitiesCount() == 0)
+            if(_movementFilter.GetEntitiesCount() == 0)
                 return;
 
-            var entity = _tankMovementComponents.Value.GetRawEntities()[0];
-            var playerInputComponents = _playerInputComponents.Pools.Inc1.Get(entity);
-            ref var tankMovementComponent = ref _tankMovementComponents.Pools.Inc1.Get(entity);
+            var entity = _movementFilter.GetRawEntities()[0];
 
-            var rb = tankMovementComponent.rb;
-            var enginePower = tankMovementComponent.EnginePower;
-            var maxSpeed = tankMovementComponent.MaxSpeed;
-            var rotationSpeed = tankMovementComponent.RotationSpeed;
+            ref var move = ref _movementPool.Get(entity);
+            ref var input = ref _inputPool.Get(entity);
 
-            var currentSpeed = playerInputComponents.DirectionInput.y;
-            var currentRotation = playerInputComponents.DirectionInput.x;
+            var rb = move.rb;
+            var enginePower = move.EnginePower;
+            var maxSpeed = move.MaxSpeed;
+            var rotationSpeed = move.RotationSpeed;
 
-            if(currentRotation != 0)
+            var currentSpeed = input.DirectionInput.y;
+            var currentRotation = input.DirectionInput.x;
+
+            if(currentRotation != 0f)
                 rb.rotation -= currentRotation * rotationSpeed * Time.fixedDeltaTime;
 
             rb.AddRelativeForceY(currentSpeed * enginePower);

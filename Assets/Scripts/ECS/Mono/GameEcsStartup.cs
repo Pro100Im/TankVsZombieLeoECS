@@ -1,7 +1,6 @@
 using AB_Utility.FromSceneToEntityConverter;
 using ECS.Systems;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.UnityEditor;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -36,7 +35,8 @@ namespace ECS.Mono
 
             _initSystems
                 .Add(new PlayerSpawnSystem(_playerPrefab, cinamachine))
-                .ConvertScene();
+                .ConvertScene()
+                .Init();
 
             _updateSystems
                 .Add(new PlayerInputSystem(_input))
@@ -46,15 +46,11 @@ namespace ECS.Mono
                 .Add(new GunSystem())
                 .Add(new LifetimeSystem())
                 .Add(new ReturnToPoolSystem())
-                .Inject(_input);
+                .Init();
 
             _fixedUpdateSystems
                 .Add(new PlayerMovementSystem())
-                .Inject(_input);
-
-            _initSystems.Init();
-            _updateSystems.Init();
-            _fixedUpdateSystems.Init();
+                .Init();
 
             SceneLoader.Instance.FadeScreen(0);
         }

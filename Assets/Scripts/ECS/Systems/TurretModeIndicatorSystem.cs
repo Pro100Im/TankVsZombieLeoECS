@@ -1,27 +1,42 @@
 using ECS.Components;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 
 namespace ECS.Systems
 {
-    public class TurretModeIndicatorSystem : IEcsRunSystem
+    public class TurretModeIndicatorSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private readonly EcsFilterInject<Inc<TurretModeIndicatorComponent>> _turretModeIndicatorComponents = default;
-        private readonly EcsFilterInject<Inc<TurretComponent>> _turretComponents = default;
+        private EcsWorld _world;
+
+        private EcsPool<TurretModeIndicatorComponent> _indicatorPool;
+        private EcsPool<TurretComponent> _turretPool;
+
+        private EcsFilter _indicatorFilter;
+        private EcsFilter _turretFilter;
+
+        public void Init(IEcsSystems systems)
+        {
+            _world = systems.GetWorld();
+
+            _indicatorPool = _world.GetPool<TurretModeIndicatorComponent>();
+            _turretPool = _world.GetPool<TurretComponent>();
+
+            _indicatorFilter = _world.Filter<TurretModeIndicatorComponent>().End();
+            _turretFilter = _world.Filter<TurretComponent>().End();
+        }
 
         public void Run(IEcsSystems systems)
         {
-            if(_turretModeIndicatorComponents.Value.GetEntitiesCount() > 0 && _turretComponents.Value.GetEntitiesCount() > 0)
-            {
-                var turretEntity = _turretComponents.Value.GetRawEntities()[0];
-                ref var turretComponent = ref _turretComponents.Pools.Inc1.Get(turretEntity);
+            if(_indicatorFilter.GetEntitiesCount() == 0 || _turretFilter.GetEntitiesCount() == 0)
+                return;
 
-                var indicatorEntity = _turretModeIndicatorComponents.Value.GetRawEntities()[0];
-                ref var indicatorComponent = ref _turretModeIndicatorComponents.Pools.Inc1.Get(indicatorEntity);
+            var turretEntity = _turretFilter.GetRawEntities()[0];
+            var indicatorEntity = _indicatorFilter.GetRawEntities()[0];
 
-                indicatorComponent.MiniGunToggle.isOn = !turretComponent.IsBigGun;
-                indicatorComponent.BigGunToggle.isOn = turretComponent.IsBigGun;
-            }
+            ref var turret = ref _turretPool.Get(turretEntity);
+            ref var indicator = ref _indicatorPool.Get(indicatorEntity);
+
+            indicator.MiniGunToggle.isOn = !turret.IsBigGun;
+            indicator.BigGunToggle.isOn = turret.IsBigGun;
         }
     }
 }
