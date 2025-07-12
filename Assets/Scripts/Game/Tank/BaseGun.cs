@@ -6,7 +6,7 @@ namespace Game.Tank
     public abstract class BaseGun : MonoBehaviour
     {
         [SerializeField] protected Transform firePoint;
-        [SerializeField] protected BulletPool bulletPool;
+        //[SerializeField] protected BulletPool bulletPool;
         [SerializeField] protected ParticleSystem fireEffect;
         [SerializeField] protected TankAudio tankAudio;
 

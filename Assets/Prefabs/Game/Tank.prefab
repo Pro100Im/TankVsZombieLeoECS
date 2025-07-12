@@ -147,7 +147,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 365446862752961438}
-  - {fileID: 7002961696939545922}
   - {fileID: 1107407732323267275}
   m_Father: {fileID: 6933989512740286080}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -219,7 +218,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 365446862752961438}
-  bulletPool: {fileID: 8619860682531563256}
   fireEffect: {fileID: 6945740130072070714}
   tankAudio: {fileID: 1992901835263788762}
   RelodDuration: 5
@@ -344,7 +342,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7414202804684599737}
-  - {fileID: 6351957138204497660}
   - {fileID: 3065974632157869049}
   m_Father: {fileID: 6933989512740286080}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -416,7 +413,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 7414202804684599737}
-  bulletPool: {fileID: 7798776961674644642}
   fireEffect: {fileID: 5023469620831046408}
   tankAudio: {fileID: 1992901835263788762}
 --- !u!1 &1276093387041255053
@@ -884,53 +880,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &2929523530601386029
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7002961696939545922}
-  - component: {fileID: 8619860682531563256}
-  m_Layer: 3
-  m_Name: BulletPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7002961696939545922
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2929523530601386029}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.01, y: 0.1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8834220197351715173}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8619860682531563256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2929523530601386029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd6c60cf76ab7724a813104af2380c29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialSize: 10
-  prefab: {fileID: 0}
-  container: {fileID: 0}
 --- !u!1 &3675303006466006479
 GameObject:
   m_ObjectHideFlags: 0
@@ -11289,53 +11238,6 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
---- !u!1 &6620378358448394134
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6351957138204497660}
-  - component: {fileID: 7798776961674644642}
-  m_Layer: 3
-  m_Name: BulletPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6351957138204497660
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6620378358448394134}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5024518241832916385}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7798776961674644642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6620378358448394134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd6c60cf76ab7724a813104af2380c29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialSize: 10
-  prefab: {fileID: 0}
-  container: {fileID: 0}
 --- !u!1 &8829213915117700863
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,6 +43,7 @@ namespace ECS.Mono
                 .Add(new PlayerAudioSystem())
                 .Add(new TurretSystem())
                 .Add(new TurretModeIndicatorSystem())
+                .Add(new CreatePoolSystem())
                 .Add(new GunSystem())
                 .Add(new LifetimeSystem())
                 .Add(new ReturnToPoolSystem())

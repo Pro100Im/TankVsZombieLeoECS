@@ -1,4 +1,3 @@
-using AB_Utility.FromSceneToEntityConverter;
 using ECS.Components;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -40,22 +39,6 @@ namespace ECS.Systems
                 .Inc<ExplosiveComponent>().End();
             _miniBulletFilter = _world.Filter<InPoolTag>().Inc<BulletRefsComponent>().Inc<SpeedComponent>().Inc<LifeTimeComponent>()
                 .Exc<ExplosiveComponent>().End();
-
-            var gunEntity = _gunFilter.GetRawEntities()[0];
-            var bigGun = _bigPool.Get(gunEntity);
-            var miniGun = _miniPool.Get(gunEntity);
-
-            InitBulletPool(bigGun.BulletPrefab, bigGun.BulletPoolSize);
-            InitBulletPool(miniGun.BulletPrefab, miniGun.BulletPoolSize);
-        }
-
-        private void InitBulletPool(GameObject prefab, int poolSize)
-        {
-            for(int i = 0; i < poolSize; i++)
-            {
-                var go = EcsConverter.InstantiateAndCreateEntity(prefab, _world);
-                go.SetActive(false);
-            }
         }
 
         public void Run(IEcsSystems systems)
@@ -101,11 +84,6 @@ namespace ECS.Systems
                 bulletRef.Rb.AddForce(bulletRef.GameObject.transform.up * speedComp.Speed, ForceMode2D.Impulse);
 
                 fireEffect.Play();
-            }
-            else
-            {
-                var go = EcsConverter.InstantiateAndCreateEntity(bulletPrefab, _world);
-                go.SetActive(false);
             }
         }
     }
