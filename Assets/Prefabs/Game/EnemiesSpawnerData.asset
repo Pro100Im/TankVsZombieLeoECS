@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31bf8596b3dfa844e8583152834f3113, type: 3}
+  m_Name: EnemiesSpawnerData
+  m_EditorClassIdentifier: 
+  <PointRadius>k__BackingField: 2
+  <SmallZombieProbability>k__BackingField: 0.75
+  <MaxSpawnDelay>k__BackingField: 5
+  <MinSpawnDelay>k__BackingField: 2
+  <MaxSpawnRadius>k__BackingField: 10
+  <MaxSpawnRadius2>k__BackingField: 15
+  <MinSpawnRadius>k__BackingField: -10
+  <MinSpawnRadius2>k__BackingField: -15
+  <SpawnAttempts>k__BackingField: 10
+  <SmallZombiePoolSize>k__BackingField: 15
+  <BigZombiePoolSize>k__BackingField: 5
+  <SmallZombiePrefab>k__BackingField: {fileID: 5990073607831060840, guid: 5a5b79ddbadf2414f91f83628fd777b9, type: 3}
+  <BigZombiePrefab>k__BackingField: {fileID: 1864693843520684494, guid: 0e82323a63f1f4640b15cdb41c95cb4a, type: 3}

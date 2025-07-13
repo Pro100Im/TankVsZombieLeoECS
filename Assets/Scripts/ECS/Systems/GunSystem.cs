@@ -62,7 +62,6 @@ namespace ECS.Systems
         {
             var filter = isBig ? _bigBulletFilter : _miniBulletFilter;
             var gunComp = isBig ? (object)_bigPool.Get(gunEntity) : _miniPool.Get(gunEntity);
-            var bulletPrefab = isBig ? ((BigGunComponent)gunComp).BulletPrefab : ((MiniGunComponent)gunComp).BulletPrefab;
             var firePoint = isBig ? ((BigGunComponent)gunComp).FirePoint : ((MiniGunComponent)gunComp).FirePoint;
             var fireEffect = isBig ? ((BigGunComponent)gunComp).FireEffect : ((MiniGunComponent)gunComp).FireEffect;
 

@@ -1,4 +1,5 @@
 using AB_Utility.FromSceneToEntityConverter;
+using ECS.Data;
 using ECS.Systems;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.UnityEditor;
@@ -10,6 +11,7 @@ namespace ECS.Mono
     public class GameEcsStartup : MonoBehaviour
     {
         [SerializeField] private GameObject _playerPrefab;
+        [SerializeField] private EnemiesSpawnerData _enemiesSpawnerData;
 
         private TankInput _input;
 
@@ -43,7 +45,8 @@ namespace ECS.Mono
                 .Add(new PlayerAudioSystem())
                 .Add(new TurretSystem())
                 .Add(new TurretModeIndicatorSystem())
-                .Add(new CreatePoolSystem())
+                .Add(new CreatePoolSystem(_enemiesSpawnerData))
+                .Add(new EnemySpawnSystem(_enemiesSpawnerData))
                 .Add(new GunSystem())
                 .Add(new LifetimeSystem())
                 .Add(new ReturnToPoolSystem())
