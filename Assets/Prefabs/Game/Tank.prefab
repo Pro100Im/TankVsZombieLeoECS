@@ -1062,7 +1062,7 @@ MonoBehaviour:
     MaxSpeed: 3.5
     RotationSpeed: 70
     EnginePower: 1000
-    rb: {fileID: 7491354986613616703}
+    Rb: {fileID: 7491354986613616703}
 --- !u!114 &1648892068027246434
 MonoBehaviour:
   m_ObjectHideFlags: 0

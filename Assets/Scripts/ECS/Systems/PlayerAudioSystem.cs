@@ -32,7 +32,7 @@ namespace ECS.Systems
                 var move = _movementPool.Get(entity);
                 var audio = _audioPool.Get(entity);
 
-                var rb = move.rb;
+                var rb = move.Rb;
                 var maxSpeed = move.MaxSpeed;
 
                 var audioSource = audio.AudioSourceEngine;

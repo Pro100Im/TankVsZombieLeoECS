@@ -33,7 +33,7 @@ namespace ECS.Systems
             ref var move = ref _movementPool.Get(entity);
             ref var input = ref _inputPool.Get(entity);
 
-            var rb = move.rb;
+            var rb = move.Rb;
             var enginePower = move.EnginePower;
             var maxSpeed = move.MaxSpeed;
             var rotationSpeed = move.RotationSpeed;

@@ -223,7 +223,6 @@ GameObject:
   - component: {fileID: -3834200726956289650}
   - component: {fileID: 6689017421169975500}
   - component: {fileID: -8061000394833547944}
-  - component: {fileID: 1122212514683742569}
   - component: {fileID: 1305256468502364443}
   - component: {fileID: 1329875821223775916}
   m_Layer: 9
@@ -351,7 +350,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _converters:
   - {fileID: -8061000394833547944}
-  - {fileID: 1122212514683742569}
   - {fileID: 1305256468502364443}
   - {fileID: 1329875821223775916}
   _destroyAfterConversion: 0
@@ -372,20 +370,13 @@ MonoBehaviour:
     Rb: {fileID: 5431984710023560341}
     DieEffect: {fileID: 7081249939691978587}
     Animator: {fileID: 654406648537471058}
---- !u!114 &1122212514683742569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5990073607831060840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d98e3f454833dcc45b7c2ebfeae86f59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _component:
-    Speed: 4
+    ObstacleLayer:
+      serializedVersion: 2
+      m_Bits: 128
+    MoveSpeed: 4
+    RotationSpeed: 5
+    AvoidDistance: 3
+    ForceMultiply: 100
 --- !u!114 &1305256468502364443
 MonoBehaviour:
   m_ObjectHideFlags: 0

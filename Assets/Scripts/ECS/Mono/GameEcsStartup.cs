@@ -47,6 +47,7 @@ namespace ECS.Mono
                 .Add(new TurretModeIndicatorSystem())
                 .Add(new CreatePoolSystem(_enemiesSpawnerData))
                 .Add(new EnemySpawnSystem(_enemiesSpawnerData))
+                .Add(new ZombieFollowSystem())
                 .Add(new GunSystem())
                 .Add(new LifetimeSystem())
                 .Add(new ReturnToPoolSystem())

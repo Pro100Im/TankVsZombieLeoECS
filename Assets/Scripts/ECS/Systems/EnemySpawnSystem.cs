@@ -76,7 +76,7 @@ namespace ECS.Systems
 
             var targetEntity = _tankMovementFilter.GetRawEntities()[0];
             var target = _targetPool.Get(targetEntity);
-            var randomPoint = target.rb.transform.position + new Vector3(randomDistanceX, randomDistanceY, 0);
+            var randomPoint = target.Rb.transform.position + new Vector3(randomDistanceX, randomDistanceY, 0);
 
             if(!Physics2D.OverlapCircle(randomPoint, pointRadius, obstacleLayer))
             {

@@ -10,6 +10,6 @@ namespace ECS.Components
         public float RotationSpeed;
         public float EnginePower;
 
-        public Rigidbody2D rb;
+        public Rigidbody2D Rb;
     }
 }

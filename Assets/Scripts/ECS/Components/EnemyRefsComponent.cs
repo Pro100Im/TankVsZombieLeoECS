@@ -10,5 +10,11 @@ namespace ECS.Components
         public Rigidbody2D Rb;
         public ParticleSystem DieEffect;
         public Animator Animator;
+        public LayerMask ObstacleLayer;
+
+        public float MoveSpeed;
+        public float RotationSpeed;
+        public float AvoidDistance;
+        public float ForceMultiply;
     }
 }
