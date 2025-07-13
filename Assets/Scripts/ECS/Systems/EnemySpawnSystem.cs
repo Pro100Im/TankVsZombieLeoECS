@@ -11,9 +11,11 @@ namespace ECS.Systems
 
         private EcsPool<InPoolTag> _inPool;
         private EcsPool<EnemyRefsComponent> _refPool;
+        private EcsPool<TankMovementComponent> _targetPool;
 
         private EcsFilter _bigZombieFilter;
         private EcsFilter _smallZombieFilter;
+        private EcsFilter _tankMovementFilter;
 
         private EnemiesSpawnerData _enemiesSpawnerData;
 
@@ -30,9 +32,11 @@ namespace ECS.Systems
 
             _inPool = _world.GetPool<InPoolTag>();
             _refPool = _world.GetPool<EnemyRefsComponent>();
+            _targetPool = _world.GetPool<TankMovementComponent>();
 
             _bigZombieFilter = _world.Filter<InPoolTag>().Inc<EnemyRefsComponent>().Inc<BigEnemyTag>().End();
             _smallZombieFilter = _world.Filter<InPoolTag>().Inc<EnemyRefsComponent>().Exc<BigEnemyTag>().End();
+            _tankMovementFilter = _world.Filter<TankMovementComponent>().End();
         }
 
         public void Run(IEcsSystems systems)
@@ -50,6 +54,9 @@ namespace ECS.Systems
 
         private void SpawnZombie()
         {
+            if(_tankMovementFilter.GetEntitiesCount() <= 0)
+                return;
+
             var minSpawnRadius = _enemiesSpawnerData.MinSpawnRadius;
             var minSpawnRadius2 = _enemiesSpawnerData.MinSpawnRadius2;
             var maxSpawnRadius = _enemiesSpawnerData.MaxSpawnRadius;
@@ -67,7 +74,9 @@ namespace ECS.Systems
             var randomDistanceX = possibleDistancesX[randomIndexX];
             var randomDistanceY = possibleDistancesY[randomIndexY];
 
-            var randomPoint = /*_target.position +*/ new Vector3(randomDistanceX, randomDistanceY, 0);
+            var targetEntity = _tankMovementFilter.GetRawEntities()[0];
+            var target = _targetPool.Get(targetEntity);
+            var randomPoint = target.rb.transform.position + new Vector3(randomDistanceX, randomDistanceY, 0);
 
             if(!Physics2D.OverlapCircle(randomPoint, pointRadius, obstacleLayer))
             {
