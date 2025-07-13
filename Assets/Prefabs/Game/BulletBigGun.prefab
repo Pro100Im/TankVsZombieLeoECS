@@ -248,7 +248,7 @@ MonoBehaviour:
   - {fileID: 3682816967570672478}
   - {fileID: -6822414349259937122}
   - {fileID: -2309080185444828537}
-  _destroyAfterConversion: 0
+  _destroyAfterConversion: 1
 --- !u!114 &-7363062669996675602
 MonoBehaviour:
   m_ObjectHideFlags: 0

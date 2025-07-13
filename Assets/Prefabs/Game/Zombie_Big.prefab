@@ -255,7 +255,7 @@ MonoBehaviour:
   - {fileID: 746058259575602693}
   - {fileID: -1770632816904330530}
   - {fileID: 3972698814127037005}
-  _destroyAfterConversion: 0
+  _destroyAfterConversion: 1
 --- !u!114 &3661821555997148485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,7 +279,7 @@ MonoBehaviour:
     MoveSpeed: 1.7
     RotationSpeed: 5
     AvoidDistance: 3
-    ForceMultiply: 100
+    ForceMultiply: 20
 --- !u!114 &746058259575602693
 MonoBehaviour:
   m_ObjectHideFlags: 0
