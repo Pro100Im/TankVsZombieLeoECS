@@ -1,58 +1,51 @@
 using ECS.Components;
 using Leopotam.EcsLite;
-using Leopotam.EcsLite.Di;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace ECS.Systems
 {
-	public class PlayerMovementSystem : IEcsRunSystem, IEcsInitSystem, IEcsDestroySystem
-	{
-		private EcsCustomInject<TankInput> _tankInput;
+    public class PlayerMovementSystem : IEcsInitSystem, IEcsRunSystem
+    {
+        private EcsWorld _world;
 
-		private readonly EcsFilterInject<Inc<TankMovementComponent>> _tankMovementComponents = default;
+        private EcsPool<TankMovementComponent> _movementPool;
+        private EcsPool<PlayerInputComponent> _inputPool;
 
-		private float _currentSpeed;
-		private float _currentRotation;
+        private EcsFilter _movementFilter;
 
-		public void Init( IEcsSystems systems )
-		{
-			_currentSpeed = 0;
+        public void Init(IEcsSystems systems)
+        {
+            _world = systems.GetWorld();
 
-			_tankInput.Value.ActionMap.Move.performed += SetDirection;
-			_tankInput.Value.ActionMap.Move.canceled  += SetDirection;
-		}
+            _movementPool = _world.GetPool<TankMovementComponent>();
+            _inputPool = _world.GetPool<PlayerInputComponent>();
 
-		public void Run( IEcsSystems systems )
-		{
-			foreach( var entity in _tankMovementComponents.Value )
-			{
-				var tankMovementComponent = _tankMovementComponents.Pools.Inc1.Get( entity );
-				var rb              = tankMovementComponent.rb;
-				var enginePower           = tankMovementComponent.EnginePower;
-				var maxSpeed              = tankMovementComponent.MaxSpeed;
-				var rotationSpeed         = tankMovementComponent.RotationSpeed;
-				
-				if( _currentRotation != 0 )
-					rb.rotation -= _currentRotation * rotationSpeed * Time.fixedDeltaTime;
+            _movementFilter = _world.Filter<TankMovementComponent>().Inc<PlayerInputComponent>().End();
+        }
 
-				rb.AddRelativeForceY( _currentSpeed * enginePower );
-				rb.linearVelocityY = Mathf.Clamp( rb.linearVelocityY, -maxSpeed, maxSpeed );
-			}
-		}
+        public void Run(IEcsSystems systems)
+        {
+            if(_movementFilter.GetEntitiesCount() == 0)
+                return;
 
-		private void SetDirection( InputAction.CallbackContext context )
-		{
-			var input = context.ReadValue<Vector2>( ).normalized;
+            var entity = _movementFilter.GetRawEntities()[0];
 
-			_currentSpeed    = input.y;
-			_currentRotation = input.x;
-		}
+            ref var move = ref _movementPool.Get(entity);
+            ref var input = ref _inputPool.Get(entity);
 
-		public void Destroy( IEcsSystems systems )
-		{
-			_tankInput.Value.ActionMap.Move.performed -= SetDirection;
-			_tankInput.Value.ActionMap.Move.canceled  -= SetDirection;
-		}
-	}
+            var rb = move.rb;
+            var enginePower = move.EnginePower;
+            var maxSpeed = move.MaxSpeed;
+            var rotationSpeed = move.RotationSpeed;
+
+            var currentSpeed = input.DirectionInput.y;
+            var currentRotation = input.DirectionInput.x;
+
+            if(currentRotation != 0f)
+                rb.rotation -= currentRotation * rotationSpeed * Time.fixedDeltaTime;
+
+            rb.AddRelativeForceY(currentSpeed * enginePower);
+            rb.linearVelocityY = Mathf.Clamp(rb.linearVelocityY, -maxSpeed, maxSpeed);
+        }
+    }
 }
