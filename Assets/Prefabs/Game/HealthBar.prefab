@@ -311,6 +311,8 @@ GameObject:
   - component: {fileID: 3540781893883595772}
   - component: {fileID: 8054910494288779807}
   - component: {fileID: 7074853031871347232}
+  - component: {fileID: 1654525874704463644}
+  - component: {fileID: 2124831285149400919}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -391,7 +393,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3493236906209276047}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca6e854d6258f234aafb7314eb40e8e0, type: 3}
   m_Name: 
@@ -399,6 +401,37 @@ MonoBehaviour:
   changeHpDuration: 0.4
   hp: {fileID: 5472706915221460619}
   hpShadow: {fileID: 6505158381384004310}
+--- !u!114 &1654525874704463644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3493236906209276047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d40b90da6b42589971320ba7a7bc95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _converters:
+  - {fileID: 2124831285149400919}
+  _destroyAfterConversion: 0
+--- !u!114 &2124831285149400919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3493236906209276047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a0854a9c8e4a340838774da1ed3aff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _component:
+    ForegroundBar: {fileID: 5472706915221460619}
+    ShadowBar: {fileID: 6505158381384004310}
+    ShadowSpeed: 0.4
 --- !u!1 &6115197253056838535
 GameObject:
   m_ObjectHideFlags: 0

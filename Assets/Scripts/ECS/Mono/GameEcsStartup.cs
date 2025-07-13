@@ -18,6 +18,7 @@ namespace ECS.Mono
         private EcsSystems _initSystems;
         private EcsSystems _updateSystems;
         private EcsSystems _fixedUpdateSystems;
+        private EcsSystems _lateUpdateSystems;
 
         private void Start()
         {
@@ -30,6 +31,7 @@ namespace ECS.Mono
             _initSystems = new EcsSystems(world);
             _updateSystems = new EcsSystems(world);
             _fixedUpdateSystems = new EcsSystems(world);
+            _lateUpdateSystems = new EcsSystems(world);
 
             AddDebugSystems(_initSystems);
             AddDebugSystems(_updateSystems);
@@ -47,14 +49,19 @@ namespace ECS.Mono
                 .Add(new TurretModeIndicatorSystem())
                 .Add(new CreatePoolSystem(_enemiesSpawnerData))
                 .Add(new EnemySpawnSystem(_enemiesSpawnerData))
-                .Add(new ZombieFollowSystem())
                 .Add(new GunSystem())
                 .Add(new LifetimeSystem())
+                .Add(new HpSystem())
                 .Add(new ReturnToPoolSystem())
                 .Init();
 
             _fixedUpdateSystems
                 .Add(new PlayerMovementSystem())
+                .Add(new ZombieFollowSystem())
+                .Init();
+
+            _lateUpdateSystems
+                .Add(new HpBarSystem())
                 .Init();
 
             SceneLoader.Instance.FadeScreen(0);
@@ -92,6 +99,10 @@ namespace ECS.Mono
             _fixedUpdateSystems?.Destroy();
             _fixedUpdateSystems?.GetWorld()?.Destroy();
             _fixedUpdateSystems = null;
+
+            _lateUpdateSystems?.Destroy();
+            _lateUpdateSystems?.GetWorld()?.Destroy();
+            _lateUpdateSystems = null;
         }
     }
 }

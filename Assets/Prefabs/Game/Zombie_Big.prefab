@@ -279,7 +279,7 @@ MonoBehaviour:
     MoveSpeed: 1.7
     RotationSpeed: 5
     AvoidDistance: 3
-    ForceMultiply: 20
+    ForceMultiply: 60
 --- !u!114 &746058259575602693
 MonoBehaviour:
   m_ObjectHideFlags: 0
