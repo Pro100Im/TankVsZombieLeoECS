@@ -16,5 +16,9 @@ namespace ECS.Components
         public float RotationSpeed;
         public float AvoidDistance;
         public float ForceMultiply;
+        public float AttackRange;
+        public float TimeBetweenAttack;
+        [HideInInspector]
+        public float LastAttackTime;
     }
 }

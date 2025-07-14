@@ -1,7 +1,7 @@
 
 namespace ECS.Components
 {
-    public struct TakeDamageTag
+    public struct TakeDamageEvent
     {
         public int Damage;
     }

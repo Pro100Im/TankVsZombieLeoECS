@@ -51,6 +51,7 @@ namespace ECS.Mono
                 .Add(new EnemySpawnSystem(_enemiesSpawnerData))
                 .Add(new GunSystem())
                 .Add(new LifetimeSystem())
+                .Add(new ZombieAttackSystem())
                 .Add(new HpSystem())
                 .Add(new ReturnToPoolSystem())
                 .Init();
@@ -84,6 +85,11 @@ namespace ECS.Mono
         private void FixedUpdate()
         {
             _fixedUpdateSystems.Run();
+        }
+
+        private void LateUpdate()
+        {
+            _lateUpdateSystems.Run();
         }
 
         private void OnDestroy()

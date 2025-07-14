@@ -377,6 +377,9 @@ MonoBehaviour:
     RotationSpeed: 5
     AvoidDistance: 3
     ForceMultiply: 60
+    AttackRange: 2
+    TimeBetweenAttack: 2
+    LastAttackTime: 0
 --- !u!114 &1305256468502364443
 MonoBehaviour:
   m_ObjectHideFlags: 0
