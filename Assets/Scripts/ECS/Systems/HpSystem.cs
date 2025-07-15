@@ -11,8 +11,9 @@ namespace ECS.Systems
         private EcsPool<HpComponent> _hpPool;
         private EcsPool<TakeDamageEvent> _takeDamagePool;
         private EcsPool<ChangeHpTag> _changeHpPool;
+        private EcsPool<ReturnToPoolTag> _returnToPoolTagPool;
 
-        private EcsFilter _hpFilter;
+        private EcsFilter _takeDamageEventFilter;
 
         public void Init(IEcsSystems systems)
         {
@@ -21,29 +22,33 @@ namespace ECS.Systems
             _hpPool = _world.GetPool<HpComponent>();
             _takeDamagePool = _world.GetPool<TakeDamageEvent>();
             _changeHpPool = _world.GetPool<ChangeHpTag>();
+            _returnToPoolTagPool = _world.GetPool<ReturnToPoolTag>();
 
-            _hpFilter = _world.Filter<HpComponent>().Inc<TakeDamageEvent>().Exc<InPoolTag>().End();
+            _takeDamageEventFilter = _world.Filter<TakeDamageEvent>().Exc<InPoolTag>().Exc<ReturnToPoolTag>().End();
         }
 
         public void Run(IEcsSystems systems)
         {
-            if(_hpFilter.GetEntitiesCount() <= 0)
+            if(_takeDamageEventFilter.GetEntitiesCount() <= 0)
                 return;
 
-            foreach(var entity in _hpFilter)
+            foreach(var entity in _takeDamageEventFilter)
             {
-                var damage = _takeDamagePool.Get(entity);
-                ref var health = ref _hpPool.Get(entity);
+                var takeDamageEvent = _takeDamagePool.Get(entity);
+                var targetEntity = takeDamageEvent.TargetEntity;
+                var damage = takeDamageEvent.Damage;
+
+                ref var health = ref _hpPool.Get(targetEntity);
                 var currentHp = health.CurrentHp;
                 var maxHp = health.MaxHp;
 
-                currentHp -= damage.Damage;
+                currentHp -= damage;
                 health.CurrentHp = Math.Clamp(currentHp, 0, maxHp);
 
-                _takeDamagePool.Del(entity);
+                _returnToPoolTagPool.Add(entity);
 
-                if(!_changeHpPool.Has(entity))
-                    _changeHpPool.Add(entity);
+                if(!_changeHpPool.Has(targetEntity))
+                    _changeHpPool.Add(targetEntity);
             }
         }
     }

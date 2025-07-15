@@ -12,10 +12,13 @@ namespace ECS.Systems
 
         private EcsPool<BigGunComponent> _bigPool;
         private EcsPool<MiniGunComponent> _miniPool;
+        private EcsPool<InPoolTag> _inPoolTagPool;
+        private EcsPool<TakeDamageEvent> _takeDamageEventPool;
 
         private EcsFilter _gunFilter;
         private EcsFilter _bigBulletFilter;
         private EcsFilter _miniBulletFilter;
+        private EcsFilter _takeDamageEventFilter;
 
         private EcsFilter _bigZombieFilter;
         private EcsFilter _smallZombieFilter;
@@ -39,12 +42,15 @@ namespace ECS.Systems
         {
             _bigPool = _world.GetPool<BigGunComponent>();
             _miniPool = _world.GetPool<MiniGunComponent>();
+            _inPoolTagPool = _world.GetPool<InPoolTag>();
+            _takeDamageEventPool = _world.GetPool<TakeDamageEvent>();
 
             _gunFilter = _world.Filter<TurretComponent>().Inc<BigGunComponent>().Inc<MiniGunComponent>().End();
             _bigBulletFilter = _world.Filter<InPoolTag>().Inc<BulletRefsComponent>().Inc<SpeedComponent>().Inc<LifeTimeComponent>()
                 .Inc<ExplosiveComponent>().End();
             _miniBulletFilter = _world.Filter<InPoolTag>().Inc<BulletRefsComponent>().Inc<SpeedComponent>().Inc<LifeTimeComponent>()
                 .Exc<ExplosiveComponent>().End();
+            _takeDamageEventFilter = _world.Filter<InPoolTag>().Inc<TakeDamageEvent>().End();
 
             var gunEntity = _gunFilter.GetRawEntities()[0];
             var bigGun = _bigPool.Get(gunEntity);
@@ -64,9 +70,11 @@ namespace ECS.Systems
 
             var smallZombiePrefab = _enemiesSpawnerData.SmallZombiePrefab;
             var smallZombiePoolSize = _enemiesSpawnerData.SmallZombiePoolSize;
+            var takeDamageEventPoolSize = bigZombiePoolSize + smallZombiePoolSize;
 
             InitPool(bigZombiePrefab, bigZombiePoolSize);
             InitPool(smallZombiePrefab, smallZombiePoolSize);
+            CreateTakeDamageEventPool(takeDamageEventPoolSize);
         }
 
         private void InitPool(GameObject prefab, int poolSize)
@@ -81,10 +89,25 @@ namespace ECS.Systems
             go.SetActive(false);
         }
 
+        private void CreateTakeDamageEventPool(int poolSize)
+        {
+            for(int i = 0; i < poolSize; i++)
+                CreateTakeDamageEventEntity();
+        }
+
+        private void CreateTakeDamageEventEntity()
+        {
+            var entity = _world.NewEntity();
+
+            _inPoolTagPool.Add(entity);
+            _takeDamageEventPool.Add(entity);
+        }
+
         public void Run(IEcsSystems systems)
         {
             CheckBulletPools();
             CheckEnemiesPools();
+            CheckTakeDamageEventPool();
         }
 
         private void CheckBulletPools()
@@ -107,6 +130,12 @@ namespace ECS.Systems
 
             if(_bigZombieFilter.GetEntitiesCount() <= 0)
                 CreatePoolObject(_enemiesSpawnerData.BigZombiePrefab);
+        }
+
+        private void CheckTakeDamageEventPool()
+        {
+            if(_takeDamageEventFilter.GetEntitiesCount() <= 0)
+                CreateTakeDamageEventEntity();
         }
     }
 }

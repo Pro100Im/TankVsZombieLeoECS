@@ -20,8 +20,10 @@ MonoBehaviour:
   <MaxSpawnRadius2>k__BackingField: 15
   <MinSpawnRadius>k__BackingField: -10
   <MinSpawnRadius2>k__BackingField: -15
-  <SpawnAttempts>k__BackingField: 10
   <SmallZombiePoolSize>k__BackingField: 15
   <BigZombiePoolSize>k__BackingField: 5
   <SmallZombiePrefab>k__BackingField: {fileID: 5990073607831060840, guid: 5a5b79ddbadf2414f91f83628fd777b9, type: 3}
   <BigZombiePrefab>k__BackingField: {fileID: 1864693843520684494, guid: 0e82323a63f1f4640b15cdb41c95cb4a, type: 3}
+  <ObstacleLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 128

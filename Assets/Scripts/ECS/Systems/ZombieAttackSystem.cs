@@ -12,10 +12,12 @@ namespace ECS.Systems
         private EcsPool<DamageComponent> _attackPool;
         private EcsPool<TankMovementComponent> _targetPool;
         private EcsPool<TakeDamageEvent> _takeDamagePool;
+        private EcsPool<InPoolTag> _inPoolTagPool;
 
         private EcsFilter _bigZombieFilter;
         private EcsFilter _smallZombieFilter;
         private EcsFilter _tankMovementFilter;
+        private EcsFilter _takeDamageFilter;
 
         public void Init(IEcsSystems systems)
         {
@@ -25,10 +27,12 @@ namespace ECS.Systems
             _targetPool = _world.GetPool<TankMovementComponent>();
             _takeDamagePool = _world.GetPool<TakeDamageEvent>();
             _attackPool = _world.GetPool<DamageComponent>();
+            _inPoolTagPool = _world.GetPool<InPoolTag>();
 
             _bigZombieFilter = _world.Filter<EnemyRefsComponent>().Inc<BigEnemyTag>().Exc<InPoolTag>().End();
             _smallZombieFilter = _world.Filter<EnemyRefsComponent>().Exc<BigEnemyTag>().Exc<InPoolTag>().End();
             _tankMovementFilter = _world.Filter<TankMovementComponent>().End();
+            _takeDamageFilter = _world.Filter<TakeDamageEvent>().Inc<InPoolTag>().End();
         }
 
         public void Run(IEcsSystems systems)
@@ -69,10 +73,16 @@ namespace ECS.Systems
 
                 var damage = _attackPool.Get(entity).Damage;
 
-                if(!_takeDamagePool.Has(targetEntity))
-                    _takeDamagePool.Add(targetEntity) = new TakeDamageEvent { Damage = damage };
-                //else
-                //    _takeDamagePool.Get(entity).Damage += damage;
+                if(_takeDamageFilter.GetEntitiesCount() > 0)
+                {
+                    var takeDamageEventEntity = _takeDamageFilter.GetRawEntities()[0];
+                    ref var takeDamageEvent = ref _takeDamagePool.Get(takeDamageEventEntity);
+
+                    takeDamageEvent.TargetEntity = targetEntity;
+                    takeDamageEvent.Damage = damage;
+
+                    _inPoolTagPool.Del(takeDamageEventEntity);
+                }
             }
         }
     }
