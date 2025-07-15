@@ -52,6 +52,7 @@ namespace ECS.Mono
                 .Add(new GunSystem())
                 .Add(new LifetimeSystem())
                 .Add(new ZombieAttackSystem())
+                .Add(new BulletCollisionSystem())
                 .Add(new HpSystem())
                 .Add(new ReturnToPoolSystem())
                 .Init();

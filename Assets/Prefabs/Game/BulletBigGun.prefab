@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 3682816967570672478}
   - component: {fileID: -6822414349259937122}
   - component: {fileID: -2309080185444828537}
+  - component: {fileID: 3948616353526883508}
   m_Layer: 6
   m_Name: BulletBigGun
   m_TagString: Bullet
@@ -248,6 +249,7 @@ MonoBehaviour:
   - {fileID: 3682816967570672478}
   - {fileID: -6822414349259937122}
   - {fileID: -2309080185444828537}
+  - {fileID: 3948616353526883508}
   _destroyAfterConversion: 1
 --- !u!114 &-7363062669996675602
 MonoBehaviour:
@@ -333,3 +335,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15180b7693686574593955d8a0f73d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3948616353526883508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8782129583722817302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 872a2930a41767c4f9a6280ca87f5fc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _component:
+    Collider: {fileID: 8185911037839031800}

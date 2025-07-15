@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5840344915235390451}
   - component: {fileID: 3657566639793370397}
   - component: {fileID: -8108859933156424985}
+  - component: {fileID: 6666586433026687615}
   m_Layer: 6
   m_Name: BulletMiniGun
   m_TagString: Bullet
@@ -246,6 +247,7 @@ MonoBehaviour:
   - {fileID: 5840344915235390451}
   - {fileID: 3657566639793370397}
   - {fileID: -8108859933156424985}
+  - {fileID: 6666586433026687615}
   _destroyAfterConversion: 1
 --- !u!114 &-3843155927077408263
 MonoBehaviour:
@@ -317,3 +319,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15180b7693686574593955d8a0f73d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6666586433026687615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3270146068538548748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 872a2930a41767c4f9a6280ca87f5fc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _component:
+    Collider: {fileID: 3963143242054708680}
