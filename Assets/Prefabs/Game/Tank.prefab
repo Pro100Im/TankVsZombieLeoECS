@@ -219,7 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoint: {fileID: 365446862752961438}
   fireEffect: {fileID: 6945740130072070714}
-  tankAudio: {fileID: 1992901835263788762}
+  tankAudio: {fileID: 0}
   RelodDuration: 5
   HeatingDuration: 0.25
   recoilPower: 500
@@ -414,7 +414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoint: {fileID: 7414202804684599737}
   fireEffect: {fileID: 5023469620831046408}
-  tankAudio: {fileID: 1992901835263788762}
+  tankAudio: {fileID: 0}
 --- !u!1 &1276093387041255053
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,7 +424,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 55607464178417914}
-  - component: {fileID: 1224584959016892636}
   - component: {fileID: 2008685165827959762}
   m_Layer: 0
   m_Name: GunAudio
@@ -448,24 +447,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6933989512740286080}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1224584959016892636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1276093387041255053}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb348fcd9c4acf14db96b05bc018d777, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minSpeed: 0.2
-  maxSpeed: 1.2
-  bigGun: {fileID: 8300000, guid: fa6c8b038e4c6f040bca92faff4c860b, type: 3}
-  miniGun: {fileID: 8300000, guid: d5cb5a22ebbcca34fa6d6b8e3a341572, type: 3}
-  audioSourceEngine: {fileID: 2008685165827959762}
-  audioSourceGun: {fileID: 0}
 --- !u!82 &2008685165827959762
 AudioSource:
   m_ObjectHideFlags: 0
@@ -563,55 +544,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &1555051245588718044
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4385836794919295778}
-  - component: {fileID: 6634490729834573493}
-  m_Layer: 3
-  m_Name: TankMovement
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &4385836794919295778
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555051245588718044}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7977027949245919582}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6634490729834573493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1555051245588718044}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55a0cd53c1e16b34195ac0f2ec23fcbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSpeed: 3.5
-  rotationSpeed: 70
-  enginePower: 500
-  rb: {fileID: 7491354986613616703}
-  tankAudio: {fileID: 1992901835263788762}
 --- !u!1 &2127277597032933636
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,7 +553,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7177072142395857969}
-  - component: {fileID: 1992901835263788762}
   - component: {fileID: 4377218956808856872}
   m_Layer: 0
   m_Name: EngineAudio
@@ -645,24 +576,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7977027949245919582}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1992901835263788762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2127277597032933636}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb348fcd9c4acf14db96b05bc018d777, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minSpeed: 0.2
-  maxSpeed: 1.2
-  bigGun: {fileID: 8300000, guid: fa6c8b038e4c6f040bca92faff4c860b, type: 3}
-  miniGun: {fileID: 8300000, guid: d5cb5a22ebbcca34fa6d6b8e3a341572, type: 3}
-  audioSourceEngine: {fileID: 4377218956808856872}
-  audioSourceGun: {fileID: 2008685165827959762}
 --- !u!82 &4377218956808856872
 AudioSource:
   m_ObjectHideFlags: 0
@@ -920,7 +833,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4385836794919295778}
   - {fileID: 6933989512740286080}
   - {fileID: 7177072142395857969}
   - {fileID: 4235098210423652019}
@@ -11248,7 +11160,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6933989512740286080}
-  - component: {fileID: 6425540719938671287}
   m_Layer: 3
   m_Name: Turret
   m_TagString: Untagged
@@ -11276,21 +11187,6 @@ Transform:
   - {fileID: 8834220197351715173}
   m_Father: {fileID: 7977027949245919582}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6425540719938671287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8829213915117700863}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f65f5084277e08c4d8a70cb8ae777998, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  miniGun: {fileID: 8629573354623526383}
-  bigGun: {fileID: 9091911689449247593}
-  rotationSpeed: 10
 --- !u!1001 &4877859464489371667
 PrefabInstance:
   m_ObjectHideFlags: 0

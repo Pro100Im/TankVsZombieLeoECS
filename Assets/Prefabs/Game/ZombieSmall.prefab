@@ -220,11 +220,11 @@ GameObject:
   - component: {fileID: 8605956873280677838}
   - component: {fileID: 5431984710023560341}
   - component: {fileID: 6422740009903371135}
-  - component: {fileID: -3834200726956289650}
   - component: {fileID: 6689017421169975500}
   - component: {fileID: -8061000394833547944}
   - component: {fileID: 1305256468502364443}
   - component: {fileID: 1329875821223775916}
+  - component: {fileID: 2974451829791257272}
   m_Layer: 9
   m_Name: ZombieSmall
   m_TagString: Zombie
@@ -316,26 +316,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.6
---- !u!114 &-3834200726956289650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5990073607831060840}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e26078e35944404591bffe03c5af602, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitAnimTrigger: hit
-  maxHp: 100
-  zombieMovement: {fileID: 4650088463687149404}
-  zombieAttack: {fileID: 2152763655916679436}
-  zombieHpBar: {fileID: 6255973788737150832}
-  zombieAudio: {fileID: 4407371762458551787}
-  dieEffect: {fileID: 7081249939691978587}
-  animator: {fileID: 654406648537471058}
 --- !u!114 &6689017421169975500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,6 +332,7 @@ MonoBehaviour:
   - {fileID: -8061000394833547944}
   - {fileID: 1305256468502364443}
   - {fileID: 1329875821223775916}
+  - {fileID: 2974451829791257272}
   _destroyAfterConversion: 1
 --- !u!114 &-8061000394833547944
 MonoBehaviour:
@@ -373,6 +354,7 @@ MonoBehaviour:
     ObstacleLayer:
       serializedVersion: 2
       m_Bits: 128
+    HitAnimTrigger: 
     MoveSpeed: 4
     RotationSpeed: 5
     AvoidDistance: 3
@@ -406,6 +388,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15180b7693686574593955d8a0f73d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2974451829791257272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5990073607831060840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02ba653831f85443bae5fad3c1560cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _component:
+    BarTransform: {fileID: 391430522612796246}
+    ForegroundBar: {fileID: 4188098298828923625}
+    ShadowBar: {fileID: 5105016359724264451}
+    ShadowSpeed: 0.4
 --- !u!1 &6185764168882726411
 GameObject:
   m_ObjectHideFlags: 0
@@ -719,17 +718,16 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5024147232995733281, guid: 0c921d2b5c476264da379ff99ebf6b59, type: 3}
   m_PrefabInstance: {fileID: 4672476601528362103}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6255973788737150832 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1587052355721444103, guid: 0c921d2b5c476264da379ff99ebf6b59, type: 3}
+--- !u!4 &4188098298828923625 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8847573806113457822, guid: 0c921d2b5c476264da379ff99ebf6b59, type: 3}
   m_PrefabInstance: {fileID: 4672476601528362103}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eef0bb4025b74934fb7c4c8ec0f046ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+--- !u!4 &5105016359724264451 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 436657721903679604, guid: 0c921d2b5c476264da379ff99ebf6b59, type: 3}
+  m_PrefabInstance: {fileID: 4672476601528362103}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4724343915550686578
 PrefabInstance:
   m_ObjectHideFlags: 0

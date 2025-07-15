@@ -12,6 +12,8 @@ namespace ECS.Components
         public Animator Animator;
         public LayerMask ObstacleLayer;
 
+        public string HitAnimTrigger;
+
         public float MoveSpeed;
         public float RotationSpeed;
         public float AvoidDistance;
