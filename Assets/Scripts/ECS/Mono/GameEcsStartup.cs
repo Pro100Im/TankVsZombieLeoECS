@@ -46,7 +46,6 @@ namespace ECS.Mono
                 .Add(new PlayerInputSystem(_input))
                 .Add(new PlayerAudioSystem())
                 .Add(new TurretSystem())
-                .Add(new TurretModeIndicatorSystem())
                 .Add(new CreatePoolSystem(_enemiesSpawnerData))
                 .Add(new EnemySpawnSystem(_enemiesSpawnerData))
                 .Add(new GunSystem())
@@ -54,6 +53,7 @@ namespace ECS.Mono
                 .Add(new ZombieAttackSystem())
                 .Add(new BulletCollisionSystem())
                 .Add(new HpSystem())
+                .Add(new DieSystem())
                 .Add(new ReturnToPoolSystem())
                 .Init();
 
@@ -64,6 +64,7 @@ namespace ECS.Mono
 
             _lateUpdateSystems
                 .Add(new HpBarSystem())
+                .Add(new TurretModeIndicatorSystem())
                 .Init();
 
             SceneLoader.Instance.FadeScreen(0);
